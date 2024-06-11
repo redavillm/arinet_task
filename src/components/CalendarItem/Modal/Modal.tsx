@@ -85,6 +85,7 @@ export const Modal: React.FC<ModalProps> = ({
       </div>
       {isModalNewTask ? (
         <NewTask
+          date={date}
           monthTitle={title}
           tasksList={tasksList}
           isModalNewTask={isModalNewTask}

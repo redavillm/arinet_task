@@ -9,7 +9,7 @@
   top: 0;
   width: 100%;
   height: 100vh;
-  z-index: 99998;
+  z-index: 99999;
   display: grid;
   align-items: center;
   justify-content: center;
@@ -26,11 +26,27 @@
   border-radius: 8px;
 }
 
+.modal_new_box_exit_btn {
+  margin-left: 10px;
+  cursor: pointer;
+  position: absolute;
+  background-color: #5d7c90;
+  border: none;
+  color: #111a20;
+  font-size: 24px;
+}
+
 .modal_box_form {
+  margin-left: 50px;
+}
+
+.modal_box_form_flex {
+  display: flex;
+  justify-content: center;
 }
 
 .modal_box_form_btn {
-  color: black;
+  cursor: pointer;
   margin-top: 30px;
   padding: 10px 20px;
   background-color: white;

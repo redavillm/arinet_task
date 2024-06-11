@@ -33,7 +33,10 @@ export const findMonthIdByTitle = (title: string): number => {
   return MONTHS_NUMBER.indexOf(title) + 1;
 };
 
-export const generateUniqueId = (tasks: ITask[]) => {
+export const generateUniqueId = (tasks: ITask[] | null) => {
+  if (tasks === null) {
+    return;
+  }
   const ids = tasks.map((task) => task.id);
   const maxId = ids.length > 0 ? Math.max(...ids) : 0;
   return maxId + 1;

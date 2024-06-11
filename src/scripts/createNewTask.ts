@@ -5,8 +5,13 @@ export const createNewTask = async (
   monthTitle: string,
   date: number,
   text: string,
-  tasksList: ITask[]
+  tasksList: ITask[] | null
 ) => {
+  console.log("monthTitle = ", monthTitle);
+  console.log("date = ", date);
+  console.log("text = ", text);
+  console.log("tasksList[0] = ", tasksList);
+
   const response = await fetch(
     `http://localhost:3005/data/${findMonthIdByTitle(monthTitle)}`,
     {
