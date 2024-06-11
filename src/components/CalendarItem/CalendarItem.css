@@ -1,0 +1,35 @@
+.data_list_item {
+  width: 180px;
+  height: 180px;
+  background-color: #1c2c35;
+  color: #c9e2f0;
+  border-radius: 8px;
+  padding: 5px 5px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.data_list_item:hover {
+  background-color: #223541;
+}
+
+.data_list_item_number {
+  text-align: right;
+  font-size: 24px;
+}
+
+.data_list_item_tasks {
+  font-size: 13px;
+}
+
+.data_list_item_tasks_counter {
+  text-align: right;
+  font-size: 14px;
+}
+
+.data_list_item_no_task {
+  font-size: 20px;
+}
