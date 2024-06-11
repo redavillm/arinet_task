@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { ITask, IisStikeList } from "../../../interfaces";
 import "./Modal.css";
-import { isStrikeFun } from "../../../scripts";
+import { createIsStrikeList, isStrikeFun } from "../../../scripts";
+import { NewTask } from "./NewTask/NewTask";
 
 interface ModalProps {
   date: number;
@@ -18,17 +19,17 @@ export const Modal: React.FC<ModalProps> = ({
   date,
   tasksList,
 }) => {
-  const createIsStrikeList = () => {
-    const resultArr: IisStikeList[] = [];
-    tasksList?.map((el) => resultArr.push({ id: el.id, isStrike: false }));
-    return resultArr;
-  };
+  const [isModalNewTask, setIsModalNewTask] = useState(false);
   const [isStrikeList, setIsStrikeList] = useState<IisStikeList[]>(
-    createIsStrikeList()
+    tasksList ? createIsStrikeList(tasksList) : []
   );
 
   const changeModal = () => {
     setIsModal(!isModal);
+  };
+
+  const changeNewModal = () => {
+    setIsModalNewTask(!isModalNewTask);
   };
 
   const isStrikeHandler = (id: number) => {
@@ -40,9 +41,9 @@ export const Modal: React.FC<ModalProps> = ({
   };
 
   return (
-    <div className="modal_new_task_window">
+    <div className="modal_window">
       <div className="modal_box">
-        <div className="flex">
+        <div className="flex_exit_btn">
           <button className="modal_box_exit_btn" onClick={changeModal}>
             X
           </button>
@@ -54,12 +55,8 @@ export const Modal: React.FC<ModalProps> = ({
           {tasksList ? (
             tasksList.map((task, index) => {
               return (
-                <div
-                  className="modal_box_tasks_list_item"
-                  key={task.id}
-                  onClick={() => isStrikeHandler(task.id)}
-                >
-                  <div>
+                <div className="modal_box_tasks_list_item" key={task.id}>
+                  <div onClick={() => isStrikeHandler(task.id)}>
                     {index + 1}.{" "}
                     {!isStrikeFun(task.id, isStrikeList)?.isStrike ? (
                       <span>{task.text}</span>
@@ -67,15 +64,35 @@ export const Modal: React.FC<ModalProps> = ({
                       <s>{task.text}</s>
                     )}
                   </div>
-                  <button className="modal_box_tasks_list_item_btn">X</button>
+                  <button
+                    className="modal_box_tasks_list_item_delet_btn"
+                    // onClick={() => deleteTask(task.id)}
+                  >
+                    X
+                  </button>
                 </div>
               );
             })
           ) : (
-            <div className="modal_box_tasks_list_no_task">No tasks +</div>
+            <div className="modal_box_tasks_list_no_task">No tasks.</div>
           )}
         </div>
+        <div className="flex_new_task_btn">
+          <button className="modal_box_new_task_btn" onClick={changeNewModal}>
+            Add new task
+          </button>
+        </div>
       </div>
+      {isModalNewTask ? (
+        <NewTask
+          monthTitle={title}
+          tasksList={tasksList}
+          isModalNewTask={isModalNewTask}
+          setIsModalNewTask={setIsModalNewTask}
+        />
+      ) : (
+        <></>
+      )}
     </div>
   );
 };

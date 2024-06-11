@@ -1,2 +1,2 @@
-export * from "./fetchMonths";
+export * from "./fetchDataFromServer";
 export * from "./scripts";

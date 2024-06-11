@@ -8,7 +8,7 @@ export interface IData {
   id: number;
   title: string;
   days: number;
-  tasks: Array<ITask>;
+  tasks: ITask[];
 }
 
 export interface IisStikeList {

@@ -12,7 +12,7 @@
   opacity: 0;
 }
 
-.modal_new_task_window {
+.modal_window {
   position: fixed;
   left: 0;
   top: 0;
@@ -27,16 +27,15 @@
 }
 
 .modal_box {
-  color: #ecf8ff;
+  color: #a2d3f3;
   padding: 10px 20px;
   width: 1000px;
-  padding: 45;
   z-index: 1;
-  background-color: #111a20;
+  background-color: #101518;
   border-radius: 8px;
 }
 
-.flex {
+.flex_exit_btn {
   display: flex;
   justify-content: end;
 }
@@ -46,12 +45,32 @@
   position: absolute;
   background-color: #111a20;
   border: none;
-  color: #ecf8ff;
+  color: #6b8190;
   font-size: 24px;
 }
 
 .modal_box_title {
   text-align: center;
+}
+
+.modal_box_new_task_btn {
+  background-color: #6b8190;
+  border: 1px solid #111a20;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+
+.modal_box_new_task_btn:hover {
+  background-color: #111a20;
+  color: #6b8190;
+  border: 1px solid #6b8190;
+}
+
+.flex_new_task_btn {
+  display: flex;
+  justify-content: center;
 }
 
 /*TASKS LIST*/
@@ -75,14 +94,16 @@
   text-align: center;
 }
 
-.modal_box_tasks_list_item_btn {
+.modal_box_tasks_list_item_delet_btn {
+  background-color: #6b8190;
   height: 25px;
   width: 25px;
   border: none;
   border-radius: 3px;
   cursor: pointer;
 }
-.modal_box_tasks_list_item_btn:hover {
+.modal_box_tasks_list_item_delet_btn:hover {
   background-color: #111a20;
-  color: #ecf8ff;
+  color: #6b8190;
+  border: 1px solid #6b8190;
 }
