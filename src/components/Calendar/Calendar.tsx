@@ -1,12 +1,13 @@
 import { IData, ITask } from "../../interfaces";
 import { CalendarItem } from "../CalendarItem/CalendarItem";
 
-interface MonthProps {
+interface CalendarProps {
   month: IData;
 }
 
-export const Calendar: React.FC<MonthProps> = ({ month }) => {
+export const Calendar: React.FC<CalendarProps> = ({ month }) => {
   const { title, days, tasks } = month;
+
   let result: Array<ITask[] | null> = [];
 
   for (let i = 1; i < days; i++) {

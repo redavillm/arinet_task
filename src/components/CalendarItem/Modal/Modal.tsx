@@ -1,18 +1,20 @@
-import { useState } from "react";
-import { ITask, IisStikeList } from "../../../interfaces";
 import "./Modal.css";
+import { useContext, useState } from "react";
+import { ITask, IisStikeList } from "../../../interfaces";
 import { createIsStrikeList, isStrikeFun } from "../../../scripts";
 import { NewTask } from "./NewTask/NewTask";
+import { MonthDataContext } from "../../../context";
 
-interface ModalProps {
+interface IModalProps {
   date: number;
   title: string;
   tasksList: ITask[] | null;
   isModal: boolean;
-  setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  // setIsModal: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModal: (value: boolean) => void;
 }
 
-export const Modal: React.FC<ModalProps> = ({
+export const Modal: React.FC<IModalProps> = ({
   isModal,
   setIsModal,
   title,
@@ -23,6 +25,17 @@ export const Modal: React.FC<ModalProps> = ({
   const [isStrikeList, setIsStrikeList] = useState<IisStikeList[]>(
     tasksList ? createIsStrikeList(tasksList) : []
   );
+  const context = useContext(MonthDataContext);
+
+  if (!context) {
+    throw new Error("Error while loading context.");
+  }
+
+  const { monthsData, setMonthsData } = context;
+
+  if (monthsData === null) {
+    return null;
+  }
 
   const changeModal = () => {
     setIsModal(!isModal);
@@ -39,6 +52,29 @@ export const Modal: React.FC<ModalProps> = ({
       )
     );
   };
+
+  const deleteTask = (id: number, title: string) => {
+    setMonthsData((prevMonthsData) => {
+      if (!prevMonthsData) return null;
+
+      return prevMonthsData.map((month) => {
+        if (month.title === title) {
+          return {
+            ...month,
+            tasks: month.tasks.filter((task) => task.id !== id),
+          };
+        }
+        return month;
+      });
+    });
+    setIsStrikeList((prevIsStrikeList) =>
+      prevIsStrikeList.filter((task) => task.id !== id)
+    );
+  };
+
+  if (!isModal) {
+    return null;
+  }
 
   return (
     <div className="modal_window">
@@ -66,7 +102,7 @@ export const Modal: React.FC<ModalProps> = ({
                   </div>
                   <button
                     className="modal_box_tasks_list_item_delet_btn"
-                    // onClick={() => deleteTask(task.id)}
+                    onClick={() => deleteTask(task.id, title)}
                   >
                     X
                   </button>
@@ -87,9 +123,10 @@ export const Modal: React.FC<ModalProps> = ({
         <NewTask
           date={date}
           monthTitle={title}
-          tasksList={tasksList}
           isModalNewTask={isModalNewTask}
           setIsModalNewTask={setIsModalNewTask}
+          isStrikeList={isStrikeList}
+          setIsStrikeList={setIsStrikeList}
         />
       ) : (
         <></>

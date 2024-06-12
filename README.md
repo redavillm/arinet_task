@@ -1,15 +1,10 @@
 # To do list.
 
-A simple task list, written using React 18, TypeScript, backend endpoint on json-server.
+A simple task list, written using React 18, TypeScript.
 
 ## Scripts
 
-To start the project you need to run the following scripts:
-
-### `npm run server`
-
-Runs the app data base located in the file db.json.\
-Runs on 3005 port. You can run [http://localhost:3005/data](http://localhost:3005/data) to view data base data it in the browser.
+To start the project you need to run the following script:
 
 ### `npm run start`
 

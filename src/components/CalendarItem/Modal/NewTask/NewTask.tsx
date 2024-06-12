@@ -1,28 +1,81 @@
-import { useState } from "react";
 import "./NewTask.css";
-import { ITask } from "../../../../interfaces";
-import { createNewTask } from "../../../../scripts/createNewTask";
+import { useContext } from "react";
+import { MonthDataContext } from "../../../../context";
+import { IisStikeList } from "../../../../interfaces";
 
 interface INewTaskProps {
   date: number;
   monthTitle: string;
-  tasksList: ITask[] | null;
   isModalNewTask: boolean;
-  setIsModalNewTask: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsModalNewTask: (value: boolean) => void;
+  isStrikeList: IisStikeList[];
+  setIsStrikeList: React.Dispatch<React.SetStateAction<IisStikeList[]>>;
 }
 
 export const NewTask: React.FC<INewTaskProps> = ({
   date,
   monthTitle,
-  tasksList,
   isModalNewTask,
   setIsModalNewTask,
+  isStrikeList,
+  setIsStrikeList,
 }) => {
+  const context = useContext(MonthDataContext);
+
+  if (!context) {
+    throw new Error("Error while loading context.");
+  }
+
+  const { monthsData, setMonthsData } = context;
+
+  if (monthsData === null) {
+    return null;
+  }
+
   let newTask = "";
 
   const changeModal = () => {
     setIsModalNewTask(!isModalNewTask);
   };
+
+  const createTask = (title: string, day: number, text: string) => {
+    const newId =
+      Math.max(
+        ...monthsData.flatMap((month) => month.tasks.map((task) => task.id)),
+        0
+      ) + 1;
+
+    setMonthsData((prevMonthsData) => {
+      if (!prevMonthsData) return null;
+
+      return prevMonthsData.map((month) => {
+        if (month.title === title) {
+          const newTask = {
+            id: newId,
+            date: day,
+            text: text,
+          };
+
+          return {
+            ...month,
+            tasks: [...month.tasks, newTask],
+          };
+        }
+        return month;
+      });
+    });
+    setIsStrikeList((prevIsStrikeList) => [
+      ...prevIsStrikeList,
+      {
+        id: newId,
+        isStrike: false,
+      },
+    ]);
+  };
+
+  if (!isModalNewTask) {
+    return null;
+  }
 
   return (
     <div className="modal_new_window">
@@ -35,7 +88,7 @@ export const NewTask: React.FC<INewTaskProps> = ({
         <h2 className="modal_box_title">Describe your task.</h2>
         <form
           onSubmit={() => {
-            createNewTask(monthTitle, date, newTask, tasksList);
+            createTask(monthTitle, date, newTask);
             changeModal();
           }}
           className="modal_box_form"
